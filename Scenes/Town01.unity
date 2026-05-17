@@ -422,6 +422,8 @@ GameObject:
   - component: {fileID: 1135183608}
   - component: {fileID: 1135183609}
   - component: {fileID: 1135183610}
+  - component: {fileID: 1135183612}
+  - component: {fileID: 1135183611}
   m_Layer: 0
   m_Name: Npc
   m_TagString: Untagged
@@ -571,6 +573,52 @@ MonoBehaviour:
   CommandInfo:
     DisplayName: "\u6253\u542C"
     Icon: {fileID: 21300000, guid: a8d6591b29a0d449dbf7ca913dcd2cc7, type: 3}
+    Order: 0
+  inquireActionData:
+  - title: "\u9006\u5929\u6D88\u606F"
+    personName: 
+    message: "\u6CA1\u6709\u4E86"
+    portraitOverride: {fileID: 1845836796, guid: 7df3e2e8a1fb24977b31196b82d158a3,
+      type: 3}
+--- !u!114 &1135183611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135183604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 878314626cf24b33ad73e68fc69e08b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MatchJob: 0
+  CommandInfo:
+    DisplayName: "\u6253\u542C"
+    Icon: {fileID: 21300000, guid: 5ac63413cb92c4cec9c8d3012c43ae8d, type: 3}
+    Order: 0
+  inquireActionData:
+  - title: "\u9006\u5929\u6D88\u606F"
+    personName: 
+    message: "\u6CA1\u6709\u4E86"
+    portraitOverride: {fileID: 1845836796, guid: 7df3e2e8a1fb24977b31196b82d158a3,
+      type: 3}
+--- !u!114 &1135183612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135183604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 878314626cf24b33ad73e68fc69e08b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MatchJob: 0
+  CommandInfo:
+    DisplayName: "\u6253\u542C"
+    Icon: {fileID: 21300000, guid: 973df641ca27346179e7ee7cf4bbac28, type: 3}
     Order: 0
   inquireActionData:
   - title: "\u9006\u5929\u6D88\u606F"

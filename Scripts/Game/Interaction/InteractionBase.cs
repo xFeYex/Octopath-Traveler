@@ -2,16 +2,16 @@
 
 public class InteractionBase : MonoBehaviour
 {
-    private AllyDefinitionSO _currentInteraction;
+    private AllyDefinitionSO _currentInteraction; // 当前交互的是谁
     
-    private ActionBase[] _actionsCache;
+    private ActionBase[] _actionsCache; // all当前NPC身上有的交互的命令缓存
 
-    private readonly List<ActionCommandInfo> _cacheCommandInfo = new(8);
+    private readonly List<ActionCommandInfo> _cacheCommandInfo = new(8); // 命令的详细信息
     
-    private readonly List<VisibleActionEntry> _visibleEntries = new(8);
+    private readonly List<VisibleActionEntry> _visibleEntries = new(8); // 可以显示出来的命令信息
     
-    public IReadOnlyList<ActionCommandInfo> CacheCommandInfo => _cacheCommandInfo;
-
+    public IReadOnlyList<ActionCommandInfo> CacheCommandInfo => _cacheCommandInfo; // all对外显示的数据
+    
     private struct VisibleActionEntry
     {
         public ActionBase Action;
@@ -23,8 +23,11 @@ public class InteractionBase : MonoBehaviour
     {
         CacheActions();
     }
-    
-    public void Interact(AllyDefinitionSO interactor) { }
+
+    public void Interact(AllyDefinitionSO interactor)
+    {
+        PublishEvent(true);
+    }
 
     public void OnFocus(AllyDefinitionSO interactor)
     {
@@ -32,12 +35,15 @@ public class InteractionBase : MonoBehaviour
         _currentInteraction = interactor;
         
         RebuildCommands();
+        PublishEvent(true);
     }
 
     public void OnLoseFocus(AllyDefinitionSO interactor)
     {
         _currentInteraction = null;
         _cacheCommandInfo.Clear();
+        
+        PublishEvent(false);
     }
     
     private void CacheActions() => _actionsCache = GetComponents<ActionBase>();
@@ -64,10 +70,16 @@ public class InteractionBase : MonoBehaviour
         if(_visibleEntries.Count > 1)
             _visibleEntries.Sort((a,b) => a.CommandInfo.Order.CompareTo(b.CommandInfo.Order));
 
+        // 缓存信息
         for (int i = 0; i < _visibleEntries.Count; i++)
         {
             _cacheCommandInfo.Add(_visibleEntries[i].CommandInfo);
             Debug.Log(_visibleEntries[i].CommandInfo.DisplayName);
         }
+    }
+
+    private void PublishEvent(bool inRange)
+    {
+        EventBus.Publish(new InteractionChangedEvent(this, inRange));
     }
 }

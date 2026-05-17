@@ -8,6 +8,7 @@ public abstract class ActionBase: MonoBehaviour
     
     /* -------------------------------------------------*/
 
+    // 匹配当前命令是否能显示
     public virtual bool CanShow(AllyDefinitionSO interaction)
     {
         return IsJobMatch(interaction);
