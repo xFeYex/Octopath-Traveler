@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 public class PlayerInteraction : MonoBehaviour
 {
     private CharacterIdentity _characterIdentity;

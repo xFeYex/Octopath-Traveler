@@ -1,4 +1,5 @@
-﻿using Framework.Event;
+﻿using System;
+using Framework.Event;
 using UnityEngine.Pool;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -6,7 +7,8 @@ using Utils;
 
 public class InteractionUIController : MonoBehaviour,
     IEventReceiver<InteractionChangedEvent>,
-    IEventReceiver<InteractionMenuRequestEvent>
+    IEventReceiver<InteractionMenuRequestEvent>,
+    IEventReceiver<GameModeChangedEvent>
 {
     // 绑定NPC可交互icon + 定位
     [Header("Head Icon")] 
@@ -36,18 +38,34 @@ public class InteractionUIController : MonoBehaviour,
     {
         InitPool();
         actionIconHolder.gameObject.SetActive(false); // 只有在碰到npc的时候才显示
+        actionMenuHolder.gameObject.SetActive(false); // 默认是不打开二级菜单的
     }
 
     private void OnEnable()
     {
         EventBus.Subscribe<InteractionChangedEvent>(this);
         EventBus.Subscribe<InteractionMenuRequestEvent>(this);
+        EventBus.Subscribe<GameModeChangedEvent>(this);
     }
 
     private void OnDisable()
     {
         EventBus.Unsubscribe<InteractionChangedEvent>(this);
         EventBus.Unsubscribe<InteractionMenuRequestEvent>(this);
+        EventBus.Unsubscribe<GameModeChangedEvent>(this);
+    }
+
+    private void Update()
+    {
+        if(GameModeManager.Instance.CurrentGameMode != GameMode.InteractionMenu)
+            return;
+        
+        var input = InputSystemController.Instance;
+        if (input.GetUICancelPressed())
+        {
+            CloseMenu(true);
+            GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
+        }
     }
 
     private void LateUpdate()
@@ -143,8 +161,7 @@ public class InteractionUIController : MonoBehaviour,
         if (!e.inRange || e.target is null)
         {
             // 关闭头顶icon
-            actionIconHolder.gameObject.SetActive(false);
-            ReleaseAll(_activeIcons, _iconPool);
+            HideHeadIcons();
             return;
         }
 
@@ -167,6 +184,19 @@ public class InteractionUIController : MonoBehaviour,
         OpenMenu(e.target);
     }
 
+    // 模式改变事件
+    public void OnEvent(GameModeChangedEvent e)
+    {
+        if(e.newMode == GameMode.InteractionMenu)
+            return;
+        
+        if (e.newMode == GameMode.Explore)
+        {
+            if(_currentCommandList is not null && _currentCommandList.Count > 0)
+                ShowHeadIcons();
+        }
+    }
+    
     #endregion
 
     private void OpenMenu(InteractionBase target)
@@ -181,8 +211,13 @@ public class InteractionUIController : MonoBehaviour,
         {
             var btn = _activeButtons[i];
             var cmd = _currentCommandList[i];
-            
-            btn.GetComponent<ActionMenuBotton>().SetButton(cmd, () => target.ExecuteCommandFromUI(i));
+
+            int commandIndex = i;
+            btn.GetComponent<ActionMenuBotton>().SetButton(cmd, () =>
+            {
+                target.ExecuteCommandFromUI(commandIndex);
+                CloseMenu(false);
+            });
             
             if(firstBtn is null)
                 firstBtn = btn.GetComponent<Button>();
@@ -210,5 +245,26 @@ public class InteractionUIController : MonoBehaviour,
 
             obj.GetComponent<Image>().sprite = cmd.Icon;
         }
+    }
+
+    private void CloseMenu(bool restoreHeadIcons)
+    {
+        HideActionMenu();
+        if (restoreHeadIcons)
+            ShowHeadIcons();
+        else 
+            HideHeadIcons();
+    }
+    
+    private void HideHeadIcons()
+    {
+        actionIconHolder?.gameObject.SetActive(false);
+        ReleaseAll(_activeIcons, _iconPool);
+    }
+    
+    private void HideActionMenu()
+    {
+        actionMenuHolder?.gameObject.SetActive(false);
+        ReleaseAll(_activeButtons, _menuButtonPool);
     }
 }

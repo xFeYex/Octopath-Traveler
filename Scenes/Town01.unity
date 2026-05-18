@@ -402,7 +402,7 @@ Transform:
   m_GameObject: {fileID: 1053727982}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25, y: 0, z: -25}
+  m_LocalPosition: {x: -25, y: 0, z: -25.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -421,8 +421,8 @@ GameObject:
   - component: {fileID: 1135183605}
   - component: {fileID: 1135183608}
   - component: {fileID: 1135183609}
-  - component: {fileID: 1135183610}
   - component: {fileID: 1135183611}
+  - component: {fileID: 1135183612}
   m_Layer: 0
   m_Name: Npc
   m_TagString: Untagged
@@ -557,7 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HeadAnchor: {fileID: 0}
---- !u!114 &1135183610
+--- !u!114 &1135183611
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -574,13 +574,17 @@ MonoBehaviour:
     DisplayName: "\u6253\u542C"
     Icon: {fileID: 21300000, guid: a8d6591b29a0d449dbf7ca913dcd2cc7, type: 3}
     Order: 0
-  inquireActionData:
-  - title: "\u9006\u5929\u6D88\u606F"
-    personName: 
-    message: "\u6CA1\u6709\u4E86"
-    portraitOverride: {fileID: 1845836796, guid: 7df3e2e8a1fb24977b31196b82d158a3,
+  inquireActionDatas:
+  - title: "\u6709\u8DA3\u7684\u6D88\u606F"
+    personName: "\u6B66\u58EB"
+    message: "\u4F60\u770B\u90A3\u4E2A\u592A\u9633\u5760\u843D\u7684\u5730\u65B9\u662F\u4E0D\u662F\u6709\u4E00\u4E2A\u9ED1\u6D1E"
+    portraitOverride: {fileID: 1845836796, guid: 6fb869077a8ab4b5783fb67d40a70672,
       type: 3}
---- !u!114 &1135183611
+  - title: "\u5C0F\u9053\u6D88\u606F"
+    personName: "\u821E\u8005"
+    message: "\u524D\u4E24\u5929\u6709\u4E00\u4E2A\u8001\u7237\u53BB\u4E86\u5B98\u5E9C"
+    portraitOverride: {fileID: 74609679, guid: 5d1b2675d5820476a9722a0edfc8ab33, type: 3}
+--- !u!114 &1135183612
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -595,14 +599,18 @@ MonoBehaviour:
   MatchJob: 0
   CommandInfo:
     DisplayName: "\u6253\u6253\u6253"
-    Icon: {fileID: 21300000, guid: 26433810b721f4e5598e5968ea691bb4, type: 3}
-    Order: 0
-  inquireActionData:
-  - title: "\u9006\u5929\u6D88\u606F"
-    personName: 
-    message: "\u6CA1\u6709\u4E86"
-    portraitOverride: {fileID: 1845836796, guid: 7df3e2e8a1fb24977b31196b82d158a3,
+    Icon: {fileID: 21300000, guid: 0c3002aabcbcd446aa2216cac3928b6a, type: 3}
+    Order: 1
+  inquireActionDatas:
+  - title: "\u6709\u8DA3\u7684\u6D88\u606F"
+    personName: "\u6B66\u58EB"
+    message: "\u4F60\u770B\u90A3\u4E2A\u592A\u9633\u5760\u843D\u7684\u5730\u65B9\u662F\u4E0D\u662F\u6709\u4E00\u4E2A\u9ED1\u6D1E"
+    portraitOverride: {fileID: 1845836796, guid: 6fb869077a8ab4b5783fb67d40a70672,
       type: 3}
+  - title: "\u5C0F\u9053\u6D88\u606F"
+    personName: "\u821E\u8005"
+    message: "\u524D\u4E24\u5929\u6709\u4E00\u4E2A\u8001\u7237\u53BB\u4E86\u5B98\u5E9C"
+    portraitOverride: {fileID: 74609679, guid: 5d1b2675d5820476a9722a0edfc8ab33, type: 3}
 --- !u!1 &1537292713
 GameObject:
   m_ObjectHideFlags: 0

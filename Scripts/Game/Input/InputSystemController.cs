@@ -8,6 +8,8 @@ public class InputSystemController : Singleton<InputSystemController>, IEventRec
     private ActionMap _currentMap; // 当前的输入总线map
 
     public CharacterInputAction InputAction;
+    
+    /* -------------------------------------------------------------- */
 
     protected override void Awake()
     {
@@ -45,9 +47,23 @@ public class InputSystemController : Singleton<InputSystemController>, IEventRec
 
     public bool GetPlayerConfirmPressed()
     {
-        if(!_isInitialized || _currentMap != ActionMap.Player)
-            return false;
-        return _inputAction.Player.Confirm.WasPressedThisFrame();
+        if(!_isInitialized) return false;
+        
+        if(_currentMap == ActionMap.Player)
+            return _inputAction.Player.Confirm.WasPressedThisFrame();
+        
+        return false;
+        
+    }
+
+    public bool GetUICancelPressed()
+    {
+        if(!_isInitialized) return false;
+        
+        if(_currentMap == ActionMap.UI)
+            return _inputAction.UI.Cancel.WasPressedThisFrame();
+        
+        return false;
     }
 
     #region 事件实现
