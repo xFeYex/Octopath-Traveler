@@ -1,7 +1,9 @@
-﻿using Unity.VisualScripting;
-
+﻿
 public class InteractionBase : MonoBehaviour
 {
+    [Header("Sign Trans")]
+    public Transform HeadAnchor; // 描点
+    
     private AllyDefinitionSO _currentInteraction; // 当前交互的是谁
     
     private ActionBase[] _actionsCache; // all当前NPC身上有的交互的命令缓存
@@ -22,11 +24,12 @@ public class InteractionBase : MonoBehaviour
     private void Awake()
     {
         CacheActions();
+        HeadAnchor = transform.GetChild(0);
     }
 
     public void Interact(AllyDefinitionSO interactor)
     {
-        PublishEvent(true);
+        EventBus.Publish(new InteractionMenuRequestEvent(this));
     }
 
     public void OnFocus(AllyDefinitionSO interactor)
@@ -44,6 +47,7 @@ public class InteractionBase : MonoBehaviour
         _cacheCommandInfo.Clear();
         
         PublishEvent(false);
+        HeadAnchor.gameObject.SetActive(true);
     }
     
     private void CacheActions() => _actionsCache = GetComponents<ActionBase>();
@@ -74,7 +78,11 @@ public class InteractionBase : MonoBehaviour
         for (int i = 0; i < _visibleEntries.Count; i++)
         {
             _cacheCommandInfo.Add(_visibleEntries[i].CommandInfo);
-            Debug.Log(_visibleEntries[i].CommandInfo.DisplayName);
+        }
+
+        if (_visibleEntries.Count > 0)
+        {
+            HeadAnchor.gameObject.SetActive(false);
         }
     }
 
@@ -82,4 +90,24 @@ public class InteractionBase : MonoBehaviour
     {
         EventBus.Publish(new InteractionChangedEvent(this, inRange));
     }
+    
+    #region UI回调
+    
+    /// <summary>
+    /// UI调用
+    /// </summary>
+    /// <param name="commandIndex"></param>
+    /// <returns></returns>
+    public bool ExecuteCommandFromUI(int commandIndex)
+    {
+        if(commandIndex >= _visibleEntries.Count) return false;
+        
+        var action = _visibleEntries[commandIndex].Action;
+        if (!action.CanExecute(_currentInteraction)) return false;
+        
+        action.TriggerAction(_currentInteraction);
+        return true;
+    }
+
+    #endregion
 }

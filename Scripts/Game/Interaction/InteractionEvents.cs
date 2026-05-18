@@ -16,3 +16,13 @@ public readonly struct InteractionChangedEvent : IEvent
         this.inRange = inRange;
     }
 }
+
+public readonly struct InteractionMenuRequestEvent : IEvent
+{
+    public readonly InteractionBase target;
+    
+    public InteractionMenuRequestEvent(InteractionBase target)
+    {
+        this.target = target;
+    }
+}

@@ -14,6 +14,11 @@ public abstract class ActionBase: MonoBehaviour
         return IsJobMatch(interaction);
     }
 
+    public virtual bool CanExecute(AllyDefinitionSO interaction)
+    {
+        return true;
+    }
+
     public virtual void TriggerAction(AllyDefinitionSO interaction)
     {
         // 需要打开面板就重新写
