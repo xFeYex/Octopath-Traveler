@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 public class InteractionBase : MonoBehaviour
 {
     [Header("Sign Trans")]
@@ -26,6 +28,15 @@ public class InteractionBase : MonoBehaviour
         CacheActions();
         HeadAnchor = transform.GetChild(0);
     }
+
+    private void OnDisable()
+    {
+        _cacheCommandInfo.Clear();
+        _visibleEntries.Clear();
+        _currentInteraction =  null;
+    }
+
+    /* --------------------------------------------------- */
 
     public void Interact(AllyDefinitionSO interactor)
     {
@@ -60,8 +71,8 @@ public class InteractionBase : MonoBehaviour
         {
             var action = _actionsCache[i];
             
-            // TODO: 之后改成part member检测（团队检测）
-            if(!action.CanShow(_currentInteraction))
+            //（团队检测）
+            if(!CanAnyPartyMemberExecute(action))
                 continue;
 
             _visibleEntries.Add(new VisibleActionEntry
@@ -90,6 +101,23 @@ public class InteractionBase : MonoBehaviour
     {
         EventBus.Publish(new InteractionChangedEvent(this, inRange));
     }
+
+    public bool CanAnyPartyMemberExecute(ActionBase actionBase)
+    {
+        var partyMembers = PartyManager.Instance.PartyMembers;
+        if (partyMembers.Count > 0)
+        {
+            for (int i = 0; i < partyMembers.Count; i++)
+            {
+                var memeber = partyMembers[i];
+                if(memeber.Definition == null)
+                    continue;
+                if (actionBase.CanShow(memeber.Definition as AllyDefinitionSO))
+                    return true;
+            }
+        } 
+        return false;
+    }   
     
     #region UI回调
     

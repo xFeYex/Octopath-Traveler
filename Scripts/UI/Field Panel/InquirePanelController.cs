@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine.UI;
 
 public class InquirePanelController : PanelController
@@ -15,6 +16,8 @@ public class InquirePanelController : PanelController
     
     [Header("Buttons")]
     [SerializeField] private Button confirmButton;
+
+    public override Type PanelActionType => typeof(InquireAction);
     /* ------------------------------------------------------------------------- */
 
     public override void SetupPanel(ActionBase actionBase)
@@ -43,7 +46,6 @@ public class InquirePanelController : PanelController
     
     private void BindButtons()
     {
-        confirmButton.onClick.RemoveAllListeners();
-        confirmButton.onClick.AddListener(OnCancel);
+        ReBindButtons(confirmButton, OnCancel);
     }
 }

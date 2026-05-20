@@ -30,6 +30,8 @@ public class InteractionUIController : MonoBehaviour,
 
     private Transform _headAnchor; // 显示的锚点
 
+    private InteractionBase _targer; // 对话目标人物
+
     /* ----------------------------------------------------------------- */
 
     #region 周期函数
@@ -111,6 +113,11 @@ public class InteractionUIController : MonoBehaviour,
     // 更新显示的坐标
     private void UpdateHeadIconPosition()
     {
+        if (_targer is null || !_targer.isActiveAndEnabled)
+        {
+            HideHeadIcons();
+            return;
+        }
         var worldPos = _headAnchor.position;
         var screenPos = Camera.main.WorldToScreenPoint(worldPos);
 
@@ -158,10 +165,13 @@ public class InteractionUIController : MonoBehaviour,
     // 碰撞显示npn头顶icon
     public void OnEvent(InteractionChangedEvent e)
     {
+        _targer = e.target;
         if (!e.inRange || e.target is null)
         {
             // 关闭头顶icon
             HideHeadIcons();
+            _currentCommandList = null;
+            _targer = null;
             return;
         }
 
@@ -176,8 +186,7 @@ public class InteractionUIController : MonoBehaviour,
     public void OnEvent(InteractionMenuRequestEvent e)
     {
         // 关闭头顶icon
-        actionIconHolder.gameObject.SetActive(false);
-        ReleaseAll(_activeIcons, _iconPool);
+        HideHeadIcons();
 
         actionMenuHolder.gameObject.SetActive(true);
 

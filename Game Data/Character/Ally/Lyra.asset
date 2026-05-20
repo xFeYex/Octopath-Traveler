@@ -15,4 +15,27 @@ MonoBehaviour:
   ID: lyra
   Name: "\u83B1\u62C9"
   Portrait: {fileID: 1068809196, guid: 5d1b2675d5820476a9722a0edfc8ab33, type: 3}
+  BaseLevel: 1
+  BaseStats:
+    MaxHP: 100
+    MaxSP: 20
+    PAtk: 20
+    PDef: 20
+    MAtk: 20
+    MDef: 10
+    Speed: 10
+    Accuracy: 10
+    Evasion: 10
+  fieldAnimator: {fileID: 22100000, guid: b1ebd2c9305f21840ae24f49830c7251, type: 2}
+  battleAnimator: {fileID: 0}
   job: 4
+  globalGrowthConfigSO: {fileID: 11400000, guid: cbdbea7a5438b454badf78cbc888e958,
+    type: 2}
+  growthProfile:
+    HP: 3
+    SP: 0
+    PAtk: 0
+    PDef: 3
+    MAtk: 0
+    MDef: 1
+    Speed: 3

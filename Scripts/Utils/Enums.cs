@@ -38,3 +38,5 @@ public enum PlayerJob
     Scholar,    // 学者
     Thief       // 盗贼
 }
+
+public enum GrowthRank{ S, A, B, C, D }

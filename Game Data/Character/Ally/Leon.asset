@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf9b2e777537486ebd1ea6ff5ba3917d, type: 3}
+  m_Name: Leon
+  m_EditorClassIdentifier: 
+  ID: leon
+  Name: "\u674E\u6602"
+  Portrait: {fileID: -1365205660, guid: 7df3e2e8a1fb24977b31196b82d158a3, type: 3}
+  BaseLevel: 4
+  BaseStats:
+    MaxHP: 100
+    MaxSP: 20
+    PAtk: 10
+    PDef: 10
+    MAtk: 20
+    MDef: 20
+    Speed: 10
+    Accuracy: 10
+    Evasion: 10
+  fieldAnimator: {fileID: 22100000, guid: 90430f8fe1a1a3a45a279794d5c3cb5a, type: 2}
+  battleAnimator: {fileID: 0}
+  job: 1
+  globalGrowthConfigSO: {fileID: 11400000, guid: cbdbea7a5438b454badf78cbc888e958,
+    type: 2}
+  growthProfile:
+    HP: 0
+    SP: 2
+    PAtk: 0
+    PDef: 0
+    MAtk: 4
+    MDef: 0
+    Speed: 2

@@ -1,4 +1,6 @@
-﻿using UnityEngine.EventSystems;
+﻿using System;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utils;
 
@@ -10,11 +12,17 @@ public class PanelController : MonoBehaviour
     [Header("Focus Navigation")] // 聚焦导航
     public Button FirstButton;
     
+    [Header("Action Icon")]
+    [SerializeField] private Image actionIcon;
+
+    public virtual Type PanelActionType => null;
+    
     /* --------------------------------------------------- */
 
     public virtual void SetupPanel(ActionBase actionBase)
     {
         CurrentAction = actionBase;
+        actionIcon.sprite = actionBase.CommandInfo.Icon;
     }
     
     // 只取消当前一级的菜单，而不是全部取消
@@ -29,10 +37,24 @@ public class PanelController : MonoBehaviour
         GameModeManager.Instance.RequestChangeMode(GameMode.Explore); // 切换回自由移动状态
         ClosePanel();
     }
+
+    protected void OnConfirm()
+    {
+        CurrentAction.Execute();
+        ClosePanel();
+    }
     
     protected void SetDefaultSelection()
     {
         FirstButton.Select(); // 选中按钮
         EventSystem.current.SetSelectedGameObject(FirstButton.gameObject); // 全局强制选择
+    }
+    
+    protected void ReBindButtons(Button button, UnityAction action)
+    {
+        if (button is null) return;
+        
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(action);
     }
 }

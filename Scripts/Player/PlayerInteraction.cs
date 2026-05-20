@@ -11,6 +11,8 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
+        if (_target is null || _target.CacheCommandInfo.Count == 0) return; ; 
+        
         var input = InputSystemController.Instance;
         if (input is null) return;
 
@@ -34,8 +36,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (other.TryGetComponent(out InteractionBase interaction))
         {
-            _target = null;
             interaction.OnLoseFocus(_characterIdentity.characterDefinition as AllyDefinitionSO);
         }
+        _target = null;
     }
 }
