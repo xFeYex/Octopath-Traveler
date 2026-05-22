@@ -28,7 +28,7 @@ MonoBehaviour:
     Evasion: 11
   fieldAnimator: {fileID: 22100000, guid: bcaddec43bc90084281870e37d11da76, type: 2}
   battleAnimator: {fileID: 0}
-  job: 0
+  job: 1
   globalGrowthConfigSO: {fileID: 11400000, guid: cbdbea7a5438b454badf78cbc888e958,
     type: 2}
   growthProfile:

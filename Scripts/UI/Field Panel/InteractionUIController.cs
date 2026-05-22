@@ -57,19 +57,6 @@ public class InteractionUIController : MonoBehaviour,
         EventBus.Unsubscribe<GameModeChangedEvent>(this);
     }
 
-    private void Update()
-    {
-        if(GameModeManager.Instance.CurrentGameMode != GameMode.InteractionMenu)
-            return;
-        
-        var input = InputSystemController.Instance;
-        if (input.GetUICancelPressed())
-        {
-            CloseMenu(true);
-            GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
-        }
-    }
-
     private void LateUpdate()
     {
         if (!actionIconHolder.gameObject.activeSelf || _headAnchor == null) return;
@@ -199,11 +186,16 @@ public class InteractionUIController : MonoBehaviour,
         if(e.newMode == GameMode.InteractionMenu)
             return;
         
+        if(actionMenuHolder.gameObject.activeSelf)
+            HideActionMenu();
+        
         if (e.newMode == GameMode.Explore)
         {
             if(_currentCommandList is not null && _currentCommandList.Count > 0)
                 ShowHeadIcons();
+            return;
         }
+        HideHeadIcons();
     }
     
     #endregion

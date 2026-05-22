@@ -40,3 +40,23 @@ public enum PlayerJob
 }
 
 public enum GrowthRank{ S, A, B, C, D }
+
+public enum ItemType
+{
+    Equipment,  // 可装备物品
+    Consumable, // 可消耗物品
+}
+
+public enum ItemIconKey
+{
+    // 物品类型枚举
+    // 定义游戏中各自物品的分类
+    Weapon,         // 武器 
+    Armor,          // 防具
+    Accessory,      // 饰品
+    Healing,        // 治疗
+    SP,             // SP恢复
+    Revive,         // 复活
+    Cure,           // 解除异常
+    KeyItem         // 任务道具
+}

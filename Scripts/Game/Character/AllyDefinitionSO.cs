@@ -30,7 +30,7 @@ public class AllyDefinitionSO : CharacterDefinitionSO
             PAtk = Mathf.RoundToInt(BaseStats.PAtk * pAtkMult),
             PDef = Mathf.RoundToInt(BaseStats.PDef * pDefMult),
             MAtk = Mathf.RoundToInt(BaseStats.MAtk * mAtkMult),
-            MDef = Mathf.RoundToInt(BaseStats.MDef * mDefMult),
+            MDef = Mathf.RoundToInt(BaseStats.MDef * mDefMult), 
             Speed = Mathf.RoundToInt(BaseStats.Speed * speend)
         };
     }

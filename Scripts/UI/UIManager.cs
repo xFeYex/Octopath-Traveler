@@ -36,22 +36,28 @@ public class UIManager : MonoBehaviour,
     private void Update()
     {
         var mode = GameModeManager.Instance.CurrentGameMode;
+        var input = InputSystemController.Instance;
         if (mode is GameMode.Battle) return;
-        if (mode is GameMode.InteractionMenu)
-        {
-            if (IsAnyPanelActive() && InputSystemController.Instance.GetUICancelPressed())
-            {
-                TryHandleCancelByActivePanel();
-                return;
-            }
-        }
-
-        if (InputSystemController.Instance.GetUICancelPressed())
-            CloseAllPanels();
+        
+        if (input.GetUICancelPressed())
+            HandleGlobalCancelInput(mode);
     }
 
     /* -------------------------------------------------------------------------- */
 
+    // 首先尝试让当前活跃的面板处理取消输入，如果没有面板处理，则关闭所有面板
+    private void HandleGlobalCancelInput(GameMode currentMode)
+    {
+        if (TryHandleCancelByActivePanel())
+            return;
+        
+        if  (IsAnyPanelActive())
+            CloseAllPanels();
+        
+        if(currentMode == GameMode.InteractionMenu)
+            GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
+    }
+    
     private void GetPanelsFromRoot(Transform root)
     {
         var panels = root.GetComponentsInChildren<PanelController>(true);
@@ -66,16 +72,17 @@ public class UIManager : MonoBehaviour,
         }
     }
 
-    private void TryHandleCancelByActivePanel()
+    private bool TryHandleCancelByActivePanel()
     {
-        foreach (var p in _allPanelList)
+        foreach (var panel in _allPanelList)
         {
-            if (p.gameObject.activeSelf)
-            {
-                p.gameObject.SetActive(false);
-                return;
-            }
+            if (!panel.gameObject.activeSelf)
+                continue;
+            
+            if(panel.HandleCancelInput())
+                return true;
         }
+        return false;
     }
 
     private bool IsAnyPanelActive()

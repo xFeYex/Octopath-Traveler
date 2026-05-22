@@ -38,7 +38,7 @@ public class PanelController : MonoBehaviour
         ClosePanel();
     }
 
-    protected void OnConfirm()
+    protected virtual void OnConfirm()
     {
         CurrentAction.Execute();
         ClosePanel();
@@ -48,6 +48,13 @@ public class PanelController : MonoBehaviour
     {
         FirstButton.Select(); // 选中按钮
         EventSystem.current.SetSelectedGameObject(FirstButton.gameObject); // 全局强制选择
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform); // 强制重建布局，确保UI更新
+    }
+
+    public virtual bool HandleCancelInput()
+    {
+        return false;
     }
     
     protected void ReBindButtons(Button button, UnityAction action)

@@ -206,6 +206,38 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &319004813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319004814}
+  m_Layer: 0
+  m_Name: Baker_house
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &319004814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319004813}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1451808935}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &374489240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,6 +1208,7 @@ GameObject:
   - component: {fileID: 1135183609}
   - component: {fileID: 1135183611}
   - component: {fileID: 1135183614}
+  - component: {fileID: 1135183615}
   m_Layer: 0
   m_Name: Leon Npc
   m_TagString: Untagged
@@ -1363,11 +1396,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31aa1d0d94b34c8294c66935a249556e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatchJob: 5
+  MatchJob: 1
   CommandInfo:
     DisplayName: "\u62DB\u52DF"
     Icon: {fileID: 21300000, guid: 8f2fe2e6eb2564f459c2d2cfe22efbc8, type: 3}
     Order: 1
+--- !u!114 &1135183615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135183604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f36fd5adbb54d37952519ddc2b30f3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MatchJob: 0
+  CommandInfo:
+    DisplayName: "\u5077\u53D6"
+    Icon: {fileID: 21300000, guid: 0b2ab670df29649b6b2c801c55abb9ec, type: 3}
+    Order: 3
+  itemsToSteal:
+  - ItemDefinition: {fileID: 11400000, guid: 75e0dc2b7ac47e6419e81ab87abe9abb, type: 2}
+    Quantity: 2
+  - ItemDefinition: {fileID: 11400000, guid: 588b710bd48e7ec4c80bfb9e1372cf6d, type: 2}
+    Quantity: 2
 --- !u!1 &1441611038
 GameObject:
   m_ObjectHideFlags: 0
@@ -1477,6 +1532,77 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1451808934
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 319004814}
+    m_Modifications:
+    - target: {fileID: 100000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_Name
+      value: Baker_house
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.2771006
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0004996754
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.9374895
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1900940b6bb6884a8ae11ce9341b36f, type: 2}
+    - target: {fileID: 3300000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1, type: 3}
+--- !u!4 &1451808935 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 06f242e6d0ae1dd4abc5e5ff41c613c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1451808934}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1537292713
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,3 +2175,4 @@ SceneRoots:
   - {fileID: 1135183607}
   - {fileID: 1070614559}
   - {fileID: 612902397}
+  - {fileID: 319004814}
