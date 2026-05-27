@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4461044e27455f9f0d8c7ed18ab56f, type: 3}
+  m_Name: "\u6728\u5236\u6CD5\u6756"
+  m_EditorClassIdentifier: Assembly-CSharp:Game.Inventory:EquipmentItemSO
+  ItemName: "\u6728\u5236\u6CD5\u6756"
+  ItemDescription: "\u9B54\u6CD5\u653B\u51FB  <b><color=green>+11</color></b>\n\u6700\u5927\u9B54\u529B\u503C 
+    <b><color=green>+11</color></b>"
+  itemType: 0
+  itemIconKey: 0
+  BuyPrice: 111
+  MaxStack: 1
+  RarityWeight: 44
+  category: 0
+  WeaponType: 6
+  statBonus:
+    MaxHP: 0
+    MaxSP: 11
+    PAtk: 0
+    PDef: 0
+    MAtk: 11
+    MDef: 0
+    Speed: 0
+    Accuracy: 0
+    Evasion: 0

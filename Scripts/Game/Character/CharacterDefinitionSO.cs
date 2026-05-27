@@ -54,5 +54,19 @@ public struct StatBlock // 状态模块
         };
     }
     
-    
+    public static StatBlock operator *(StatBlock a, float multiplier)
+    {
+        return new()
+        {
+            MaxHP = Mathf.RoundToInt(a.MaxHP * multiplier),
+            MaxSP = Mathf.RoundToInt(a.MaxSP * multiplier),
+            PAtk = Mathf.RoundToInt(a.PAtk * multiplier),
+            PDef = Mathf.RoundToInt(a.PDef * multiplier),
+            MAtk = Mathf.RoundToInt(a.MAtk * multiplier),
+            MDef = Mathf.RoundToInt(a.MDef * multiplier),
+            Speed = Mathf.RoundToInt(a.Speed * multiplier),
+            Accuracy = Mathf.RoundToInt(a.Accuracy * multiplier),
+            Evasion = Mathf.RoundToInt(a.Evasion * multiplier),
+        };
+    }
 }

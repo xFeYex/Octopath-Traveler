@@ -16,7 +16,7 @@ public class ItemButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     public Button CurrentButton => _button;
     
     protected InventoryItem _currentItem; // 当前物品
-    protected ItemDefinitionSO CurrentItemDefinition => _currentItem.ItemDefinition;
+    public ItemDefinitionSO CurrentItemDefinition => _currentItem.ItemDefinition;
     
     private Action<ItemDefinitionSO> _onItemClick; // 点击事件回调
     
@@ -44,12 +44,23 @@ public class ItemButton : MonoBehaviour, ISelectHandler, IDeselectHandler
         if(itemQuality != null)
             itemQuality.text = inventoryItem.Quantity.ToString();
     }
-    
+
+    public void SetEquippedFormat()
+    {
+        if (CurrentItemDefinition != null)
+            itemName.text = CurrentItemDefinition.ItemName + "(装备中)";
+    }
     
     protected virtual void OnClick()
     {
         if(_onItemClick != null)
             _onItemClick.Invoke(CurrentItemDefinition);
+    }
+
+    public void UpdateQuantity(int quantity)
+    {
+        if (itemQuality != null)
+            itemQuality.text = quantity.ToString();
     }
     
     #region UI状态回调

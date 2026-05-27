@@ -37,6 +37,16 @@ public class InputSystemController : Singleton<InputSystemController>, IEventRec
     {
         _inputAction.Disable();
     }
+    
+    /* -------------------------------------------------------------- */
+
+    public bool GetMenuPressed()
+    {
+        if(!_isInitialized) return false;
+        
+        return _inputAction.Player.Menu.WasPressedThisFrame() 
+            ||  _inputAction.UI.Menu.WasPressedThisFrame();
+    }
 
     public Vector2 GetMovementInput()
     {

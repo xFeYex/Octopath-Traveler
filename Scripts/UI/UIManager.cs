@@ -1,5 +1,6 @@
 using System;
 using Framework.Event;
+using Unity.VisualScripting;
 using Utils;
 
 
@@ -7,12 +8,14 @@ public class UIManager : MonoBehaviour,
     IEventReceiver<PanelRequestEvent>
 {
     [Header("根节点与特殊面板引用")] 
-    [SerializeField, Tooltip("探索模式下显示的总体 UI 根节点")]
-    private GameObject _fieldUIRoot;
+    [SerializeField, Tooltip("探索模式下显示的总体 UI 根节点")] private GameObject _fieldUIRoot;
+    [SerializeField]private GameObject mainPanel;
 
     // 一键缓存所有注册的面板
     private readonly Dictionary<Type, PanelController> _panelControllerDict = new(); // 存放面板 + 类型
     private readonly List<PanelController> _allPanelList = new(); // 存放面板
+    
+   
     
     /* -------------------------------------------------------------------------- */
     private void Awake()
@@ -41,9 +44,30 @@ public class UIManager : MonoBehaviour,
         
         if (input.GetUICancelPressed())
             HandleGlobalCancelInput(mode);
+        
+        if (input.GetMenuPressed())
+            HandleGlobalMenuInput(mode);
     }
 
     /* -------------------------------------------------------------------------- */
+
+    private void HandleGlobalMenuInput(GameMode currentMode)
+    {
+        if (mainPanel.activeInHierarchy)
+        {
+            CloseAllPanels();
+            mainPanel.SetActive(false);
+            GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
+            return;
+        }
+        
+        if (currentMode == GameMode.InteractionMenu) return;
+
+        if (IsAnyPanelActive()) return;
+        
+        GameModeManager.Instance.RequestChangeMode(GameMode.Pause);
+        mainPanel.SetActive(true);
+    }
 
     // 首先尝试让当前活跃的面板处理取消输入，如果没有面板处理，则关闭所有面板
     private void HandleGlobalCancelInput(GameMode currentMode)
@@ -51,11 +75,11 @@ public class UIManager : MonoBehaviour,
         if (TryHandleCancelByActivePanel())
             return;
         
-        if  (IsAnyPanelActive())
-            CloseAllPanels();
+        if (!IsAnyPanelActive())
+            return;
         
-        if(currentMode == GameMode.InteractionMenu)
-            GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
+        GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
+        CloseAllPanels();
     }
     
     private void GetPanelsFromRoot(Transform root)
@@ -64,7 +88,6 @@ public class UIManager : MonoBehaviour,
         foreach (var p in panels)
         {
             _allPanelList.Add(p);
-            
             if(p.PanelActionType is null)
                 continue;
             

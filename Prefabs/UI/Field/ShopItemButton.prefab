@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 2550778261362465692}
   - component: {fileID: 5138397690758317428}
   - component: {fileID: 2474974842743676909}
+  - component: {fileID: 1723935520998921186}
   m_Layer: 5
   m_Name: ShopItemButton
   m_TagString: Untagged
@@ -450,6 +451,24 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1723935520998921186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642673534703468679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad0a592809d540c1a0358a9486c8d59a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 6163834978284030168}
+  itemName: {fileID: 6374488533456804216}
+  itemDescription: {fileID: 194384861615054783}
+  itemQuality: {fileID: 6406281434713909850}
+  itemTips: {fileID: 1015229579674270981}
+  priceText: {fileID: 990705035205224043}
 --- !u!1 &5725906629079328826
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +616,7 @@ GameObject:
   - component: {fileID: 7240223370180969544}
   - component: {fileID: 6374488533456804216}
   m_Layer: 5
-  m_Name: ItemName
+  m_Name: Item Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

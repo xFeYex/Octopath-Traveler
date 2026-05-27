@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Utils;
 
 [RequireComponent(typeof(PartyFieldController))]
@@ -21,6 +22,13 @@ public class PartyManager : Singleton<PartyManager>
         InitParty();
         fieldController = GetComponent<PartyFieldController>();
     }
+
+    private void Start()
+    {
+        ApplyInitialEquipment();
+    }
+    
+    /* ------------------------------------------------------------------------- */
 
     private void InitParty()
     {
@@ -53,5 +61,11 @@ public class PartyManager : Singleton<PartyManager>
     {
         AddMember(characterDefinition);
         GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
+    }
+    
+    public void ApplyInitialEquipment()
+    {
+        foreach (var member in partyMembers)
+            member.ApplyInitialEquipment();
     }
 }

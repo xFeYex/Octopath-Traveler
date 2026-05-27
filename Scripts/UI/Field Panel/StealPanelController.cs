@@ -8,6 +8,7 @@ public class StealPanelController : PanelController
      [Header("Steal Panel")]
      [SerializeField] private StealItemButton stealItemButtonPrefab;
      [SerializeField] private RectTransform contentRoot;
+     
      [Header("confirm popup")]
      [SerializeField] private RectTransform confirmPopup;
      [SerializeField] private TMP_Text popupText;

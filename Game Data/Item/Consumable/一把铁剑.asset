@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9152efc9a27d45cea88c2d16114aaa54, type: 3}
+  m_Name: "\u4E00\u628A\u94C1\u5251"
+  m_EditorClassIdentifier: 
+  ItemName: "\u4E00\u628A\u94C1\u5251"
+  ItemDescription: "\u653B\u51FB\u529B  <b><color=red>+12345</color></b>"
+  itemType: 0
+  itemIconKey: 0
+  BuyPrice: 1111
+  MaxStack: 1
+  RarityWeight: 44
+  restoreAmount: 0

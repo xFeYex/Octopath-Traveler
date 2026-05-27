@@ -8,10 +8,28 @@ public class InventoryManager : Singleton<InventoryManager>
     
     [Header("Inventory")]
     public List<InventoryItem> CurrentInventory = new List<InventoryItem>();
+
+    [Header("金额")] 
+    public int Currency;
+    private int _initialCurrency;
     
+
     /* ---------------------------------------------------------------- */
 
     #region 对外调用接口
+
+    public void AddCurrency(int currency)
+    {
+        Currency += currency;
+    }
+
+    public bool TrySpendCurrency(int amount)
+    {
+        if (Currency < amount)
+            return false;
+        Currency -= amount;
+        return true;
+    }
 
     public void AddItem(ItemDefinitionSO itemDefinition, int quantity)
     {

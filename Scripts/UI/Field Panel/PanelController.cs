@@ -22,7 +22,8 @@ public class PanelController : MonoBehaviour
     public virtual void SetupPanel(ActionBase actionBase)
     {
         CurrentAction = actionBase;
-        actionIcon.sprite = actionBase.CommandInfo.Icon;
+        if (actionIcon != null)
+            actionIcon.sprite = actionBase.CommandInfo.Icon;
     }
     
     // 只取消当前一级的菜单，而不是全部取消
@@ -44,9 +45,9 @@ public class PanelController : MonoBehaviour
         ClosePanel();
     }
     
-    protected void SetDefaultSelection()
+    public void SetDefaultSelection()
     {
-        FirstButton.Select(); // 选中按钮
+        FirstButton.Select(); // 选中按钮   
         EventSystem.current.SetSelectedGameObject(FirstButton.gameObject); // 全局强制选择
         
         LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform); // 强制重建布局，确保UI更新

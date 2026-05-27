@@ -39,3 +39,7 @@ MonoBehaviour:
     MAtk: 0
     MDef: 2
     Speed: 0
+  EquipableWeaponTypes: 03000000
+  InitialEquipment:
+  - slot: 2
+    item: {fileID: 11400000, guid: 9036ff0493f3c4842b42fe3be8253b85, type: 2}

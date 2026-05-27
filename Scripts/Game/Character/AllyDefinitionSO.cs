@@ -11,6 +11,27 @@ public class AllyDefinitionSO : CharacterDefinitionSO
     public GlobalGrowthConfigSO globalGrowthConfigSO;
     public GrowthProfile growthProfile;
 
+    [Header("Equipment Capability")]
+    public List<WeaponType> EquipableWeaponTypes = new();
+    
+    [Header("Initial Equipment")]
+    public List<InitialEquipmentEntry> InitialEquipment = new();
+    
+    [System.Serializable]
+    public struct InitialEquipmentEntry
+    {
+        public EquipSlot slot;
+        public EquipmentItemSO item;
+    }
+    
+    /* ------------------------------------------------------------------------------------------------ */
+
+    public bool CanEquipWeaponType(WeaponType weaponType)
+    {
+        if (weaponType == WeaponType.None) return false;
+        return EquipableWeaponTypes.Contains(weaponType);
+    }
+    
     #region 属性成长
 
     public StatBlock GetStatForLevel(int level)
@@ -31,7 +52,9 @@ public class AllyDefinitionSO : CharacterDefinitionSO
             PDef = Mathf.RoundToInt(BaseStats.PDef * pDefMult),
             MAtk = Mathf.RoundToInt(BaseStats.MAtk * mAtkMult),
             MDef = Mathf.RoundToInt(BaseStats.MDef * mDefMult), 
-            Speed = Mathf.RoundToInt(BaseStats.Speed * speend)
+            Speed = Mathf.RoundToInt(BaseStats.Speed * speend),
+            Accuracy = BaseStats.Accuracy,
+            Evasion = BaseStats.Evasion,
         };
     }
 
