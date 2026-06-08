@@ -5,10 +5,14 @@ using Utils;
 
 
 public class UIManager : MonoBehaviour,
-    IEventReceiver<PanelRequestEvent>
+    IEventReceiver<PanelRequestEvent>,
+    IEventReceiver<GameModeChangedEvent>
 {
     [Header("根节点与特殊面板引用")] 
-    [SerializeField, Tooltip("探索模式下显示的总体 UI 根节点")] private GameObject _fieldUIRoot;
+    [SerializeField, Tooltip("探索模式下显示的总体 UI 根节点")] private GameObject fieldUIRoot;
+
+    [SerializeField] private GameObject battleUIRoot;
+    
     [SerializeField]private GameObject mainPanel;
 
     // 一键缓存所有注册的面板
@@ -18,6 +22,7 @@ public class UIManager : MonoBehaviour,
    
     
     /* -------------------------------------------------------------------------- */
+    
     private void Awake()
     {
         _panelControllerDict.Clear();
@@ -29,11 +34,13 @@ public class UIManager : MonoBehaviour,
     private void OnEnable()
     {
         EventBus.Subscribe<PanelRequestEvent>(this);
+        EventBus.Subscribe<GameModeChangedEvent>(this);
     }
 
     private void OnDisable()
     {
         EventBus.Unsubscribe<PanelRequestEvent>(this);
+        EventBus.Unsubscribe<GameModeChangedEvent>(this);
     }
 
     private void Update()
@@ -69,17 +76,25 @@ public class UIManager : MonoBehaviour,
         mainPanel.SetActive(true);
     }
 
-    // 首先尝试让当前活跃的面板处理取消输入，如果没有面板处理，则关闭所有面板
+    /// <summary>
+    /// 理全局取消输入事件
+    /// 该方法会检查是否有活动面板，并根据情况处理取消操作
+    /// </summary>
     private void HandleGlobalCancelInput(GameMode currentMode)
     {
+        // 首先尝试通过活动面板处理取消操作
         if (TryHandleCancelByActivePanel())
             return;
-        
-        if (!IsAnyPanelActive())
+
+        if (IsAnyPanelActive())
+        {
+            GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
+            CloseAllPanels();
             return;
+        }
         
-        GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
-        CloseAllPanels();
+        if (currentMode == GameMode.InteractionMenu)
+            GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
     }
     
     private void GetPanelsFromRoot(Transform root)
@@ -126,6 +141,13 @@ public class UIManager : MonoBehaviour,
             p.gameObject.SetActive(false);
         }
     }
+
+    private void ApplyUIRootMode(GameMode mode)
+    {
+        bool isBattle = mode == GameMode.Battle;
+        fieldUIRoot.SetActive(!isBattle);
+        mainPanel.SetActive(isBattle);
+    }
     
     #region 事件函数
     
@@ -137,6 +159,11 @@ public class UIManager : MonoBehaviour,
         
         panelController?.gameObject.SetActive(true);
         panelController?.SetupPanel(e.actionBase);
+    }
+    
+    public void OnEvent(GameModeChangedEvent e)
+    {
+        ApplyUIRootMode(e.newMode);
     }
     
     #endregion

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: lyra
   Name: "\u83B1\u62C9"
-  Portrait: {fileID: 1068809196, guid: 5d1b2675d5820476a9722a0edfc8ab33, type: 3}
-  BaseLevel: 1
+  Portrait: {fileID: 463951968, guid: 5d1b2675d5820476a9722a0edfc8ab33, type: 3}
+  BaseLevel: 5
   BaseStats:
     MaxHP: 100
     MaxSP: 10
@@ -26,8 +26,13 @@ MonoBehaviour:
     Speed: 10
     Accuracy: 10
     Evasion: 10
+  BasicAttack: {fileID: 11400000, guid: 23a1f339d60d63c48a414b0adb3b596f, type: 2}
+  InitalSkills:
+  - {fileID: 11400000, guid: c171f7b594e8ee242bbc8b0eb1d0feab, type: 2}
+  - {fileID: 11400000, guid: 80c9d21dc2622ed468ffa5f81848cf96, type: 2}
+  - {fileID: 11400000, guid: 957be5e344d39bd45950ffc5edad51a8, type: 2}
   fieldAnimator: {fileID: 22100000, guid: b1ebd2c9305f21840ae24f49830c7251, type: 2}
-  battleAnimator: {fileID: 0}
+  battleAnimator: {fileID: 22100000, guid: bba2222b49899d544bdf5143c2018629, type: 2}
   job: 4
   globalGrowthConfigSO: {fileID: 11400000, guid: cbdbea7a5438b454badf78cbc888e958,
     type: 2}

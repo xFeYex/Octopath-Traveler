@@ -1,9 +1,12 @@
 ﻿
+
 using System;
+using Framework.Event;
 using Utils;
 
 [RequireComponent(typeof(PartyFieldController))]
-public class PartyManager : Singleton<PartyManager>
+public class PartyManager : Singleton<PartyManager>,
+    IEventReceiver<GameModeChangedEvent>
 {
     private PartyFieldController fieldController;
     
@@ -13,6 +16,8 @@ public class PartyManager : Singleton<PartyManager>
     [SerializeField] private List<CharacterRuntimeData> partyMembers = new();
     
     public List<CharacterRuntimeData> PartyMembers => partyMembers;
+
+    private bool fieldActorsHidden;
     
     /* ------------------------------------------------------------------------- */
 
@@ -27,7 +32,17 @@ public class PartyManager : Singleton<PartyManager>
     {
         ApplyInitialEquipment();
     }
-    
+
+    private void OnEnable()
+    {
+        EventBus.Subscribe(this);
+    }
+
+    private void OnDisable()
+    {
+        EventBus.Unsubscribe(this);
+    }
+
     /* ------------------------------------------------------------------------- */
 
     private void InitParty()
@@ -59,8 +74,13 @@ public class PartyManager : Singleton<PartyManager>
 
     public void RecruitMember(CharacterDefinitionSO characterDefinition)
     {
-        AddMember(characterDefinition);
-        GameModeManager.Instance.RequestChangeMode(GameMode.Explore);
+        FadeController.Instance.SetStyle(FadeStyle.PanelFade);
+        FadeController.Instance.FadeOut(() =>
+        {
+            AddMember(characterDefinition);
+            FadeController.Instance.FadeIn(() => GameModeManager.Instance.RequestChangeMode(GameMode.Explore));
+        });
+        
     }
     
     public void ApplyInitialEquipment()
@@ -68,4 +88,31 @@ public class PartyManager : Singleton<PartyManager>
         foreach (var member in partyMembers)
             member.ApplyInitialEquipment();
     }
+
+    #region 事件监听
+
+    public void OnEvent(GameModeChangedEvent e)
+    {
+        if (e.newMode == GameMode.Battle)
+        {
+            if (fieldActorsHidden) return;
+            
+            fieldActorsHidden = true;
+            fieldController.SetPlayerActive(false);
+            fieldController.ClearFollower();
+            return;
+        }
+
+        if (e.newMode == GameMode.Explore)
+        {
+            if (!fieldActorsHidden) return;
+            
+            fieldActorsHidden = false;
+            fieldController.SetPlayerActive(true);
+            RefreshFieldFollowers();
+        }
+    }
+
+    #endregion
+    
 }

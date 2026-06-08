@@ -4,17 +4,22 @@ public class GameModeManager : Singleton<GameModeManager>
 {
     public GameMode CurrentGameMode;
     [SerializeField] private GameMode defaultGameMode;
+    
+    /* ---------------------------------------------------------------------------------- */
 
     protected override void Awake()
     {
         base.Awake();
         CurrentGameMode = defaultGameMode;
+        Application.targetFrameRate = 60; // 锁帧
     }
 
     void Start()
     {
         AppleMode(CurrentGameMode);
     }
+    
+    /* ---------------------------------------------------------------------------------- */
 
     /// <summary>
     /// 外部请求调用改模式

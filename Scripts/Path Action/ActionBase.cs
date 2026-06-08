@@ -23,10 +23,10 @@ public abstract class ActionBase: MonoBehaviour
     {
         // 需要打开面板就重新写
         // 默认执行
-        Execute(interaction);
+        Execute();
     }
     
-    public virtual void Execute(object contextData = null){}
+    public virtual void Execute(){}
     
     protected virtual bool IsJobMatch(AllyDefinitionSO interaction)
     {

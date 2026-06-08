@@ -121,4 +121,20 @@ public class PartyFieldController : MonoBehaviour
         
         UpdateLeaderTrail();
     }
+
+    public void SetPlayerActive(bool active)
+    {
+        playerTrans.gameObject.SetActive(active);
+    }
+
+    public void ClearFollower()
+    {
+        foreach (var follower in feildFollowers)
+        {
+            if (follower != null)
+                Destroy(follower.gameObject);
+        }
+        feildFollowers.Clear();
+        trail.Clear();
+    }
 }

@@ -76,6 +76,22 @@ public class InputSystemController : Singleton<InputSystemController>, IEventRec
         return false;
     }
 
+    public Vector2 GetNavigateInput()
+    {
+        if (!_isInitialized || _currentMap != ActionMap.UI) 
+            return Vector2.zero;
+        
+        return _inputAction.UI.Navigate.ReadValue<Vector2>();
+    }
+
+    public bool GetUISubmitPressed()
+    {
+        if (!_isInitialized || _currentMap != ActionMap.UI)
+            return false;
+        
+        return _inputAction.UI.Submit.WasPressedThisFrame();
+    }
+
     #region 事件实现
 
     // 订阅实现逻辑

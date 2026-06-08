@@ -26,9 +26,12 @@ MonoBehaviour:
     Speed: 12
     Accuracy: 12
     Evasion: 21
+  BasicAttack: {fileID: 11400000, guid: 879edfa0f4b76a9488610eea3de8dca2, type: 2}
+  InitalSkills:
+  - {fileID: 11400000, guid: 80c9d21dc2622ed468ffa5f81848cf96, type: 2}
   fieldAnimator: {fileID: 22100000, guid: c7ca609cd47e50f4894d9b147aeb37c0, type: 2}
-  battleAnimator: {fileID: 0}
-  job: 8
+  battleAnimator: {fileID: 22100000, guid: fc15579e0b2e15841913060eccb54f62, type: 2}
+  job: 1
   globalGrowthConfigSO: {fileID: 11400000, guid: cbdbea7a5438b454badf78cbc888e958,
     type: 2}
   growthProfile:

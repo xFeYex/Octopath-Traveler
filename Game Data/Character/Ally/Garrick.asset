@@ -18,16 +18,19 @@ MonoBehaviour:
   BaseLevel: 78
   BaseStats:
     MaxHP: 111
-    MaxSP: 111
-    PAtk: 1111
+    MaxSP: 20
+    PAtk: 22
     PDef: 11
     MAtk: 11
-    MDef: 111
-    Speed: 111
-    Accuracy: 111
+    MDef: 22
+    Speed: 22
+    Accuracy: 22
     Evasion: 11
+  BasicAttack: {fileID: 11400000, guid: 3e5702c126342a64bb2e46502b6aba64, type: 2}
+  InitalSkills:
+  - {fileID: 11400000, guid: 80c9d21dc2622ed468ffa5f81848cf96, type: 2}
   fieldAnimator: {fileID: 22100000, guid: bcaddec43bc90084281870e37d11da76, type: 2}
-  battleAnimator: {fileID: 0}
+  battleAnimator: {fileID: 22100000, guid: 4a67dafb770778c499ad0ffb7bb50008, type: 2}
   job: 1
   globalGrowthConfigSO: {fileID: 11400000, guid: cbdbea7a5438b454badf78cbc888e958,
     type: 2}
@@ -39,3 +42,7 @@ MonoBehaviour:
     MAtk: 0
     MDef: 0
     Speed: 0
+  EquipableWeaponTypes: 01000000
+  InitialEquipment:
+  - slot: 0
+    item: {fileID: 11400000, guid: ad244eec3c4e47145bc7f05ab5461c58, type: 2}

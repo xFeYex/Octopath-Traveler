@@ -37,7 +37,7 @@ public class CharacterRuntimeData
     {
         Definition = definition;
         EquipmentStats = StatBlock.zero;
-
+        Level = definition.BaseLevel;
         var stats = GetTotalStats();
         CurrentHP = stats.MaxHP;
         CurrentSP = stats.MaxSP;
@@ -93,7 +93,25 @@ public class CharacterRuntimeData
 
     #endregion
 
-    #region 装备数据
+    #region 挑战战力评估
+
+    public static int EvaluatePowerFromStats(StatBlock stats)
+    {
+        float score =
+            stats.MaxHP * 0.2f +
+            stats.MaxSP * 0.1f +
+            stats.PAtk * 1.5f +
+            stats.MAtk * 1.5f +
+            stats.PDef * 1.0f +
+            stats.MDef * 1.0f +
+            stats.Speed * 1.2f;
+        
+        return Mathf.Max(1, Mathf.RoundToInt(score));
+    }
+
+    #endregion
+    
+    #region 装备系统
 
     public void ApplyInitialEquipment()
     {
