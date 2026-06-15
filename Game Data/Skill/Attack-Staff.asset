@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4d6c59ce4b420198c9363d4fb93122, type: 3}
   m_Name: Attack-Staff
   m_EditorClassIdentifier: 
+  specialLogic: {fileID: 0}
   skillID: attack02
   skillName: "\u666E\u901A\u653B\u51FB"
   description: 
@@ -25,3 +26,37 @@ MonoBehaviour:
   basePower: 0
   hitCount: 1
   healAmount: 0
+  hitVfxPrefab: {fileID: 4021103657954561961, guid: 5c755f9bc5253ea418e919994537dcc7,
+    type: 3}
+  vfxSpawnMode: 0
+  vfxSpawnFromCaster: 0
+  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxYRotation: 0
+  vfxHitDelay: 0
+  vfxLifeTime: 2
+  cameraImpulseStrength: 0.3
+  boostTiers:
+  - tier: 0
+    powerMultiplier: 1
+    hitCountBonus: 1
+    chanceBonus: 0
+    durationBonus: 0
+    genericValueBonus: 0
+  - tier: 1
+    powerMultiplier: 1.2
+    hitCountBonus: 1
+    chanceBonus: 0
+    durationBonus: 0
+    genericValueBonus: 0
+  - tier: 2
+    powerMultiplier: 1.5
+    hitCountBonus: 2
+    chanceBonus: 0
+    durationBonus: 0
+    genericValueBonus: 0
+  - tier: 3
+    powerMultiplier: 2
+    hitCountBonus: 3
+    chanceBonus: 0
+    durationBonus: 0
+    genericValueBonus: 0

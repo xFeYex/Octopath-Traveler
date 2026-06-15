@@ -12,31 +12,37 @@
 /// </summary>
 public class SelectNextEntityState : BattleState
 {
-    public SelectNextEntityState(BattleContoller controller) : base(controller) { }
+    public SelectNextEntityState(BattleController controller) : base(controller) { }
 
     public override IEnumerator Execute()
     {
-        BattleEntity nextEntity = _controller.GetNextActorByRound();
-        if (nextEntity == null)
+        // 1.检查战斗是否已经结束：
+        if (BattleOutcomeResolver.TryGetBattleEndedEvent(_controller.AllEntities, out BattleEndedEvent endedEvent))
         {
-            // 场上没有活人了，战斗结束。
-            _controller.StopBattle();
+            _controller.EndBattle(endedEvent);
             yield break;
         }
-        _controller.CurrentEntity = nextEntity;
         
+        // 2.从BattleRoundScheduler里取出下一位真正要行动的实体：
+        BattleEntity nextEntity = _controller.GetNextActorByRound();
+        
+        // 3.记录当前行动者，并立刻刷新时间轴预测，让UI先同步这一轮队列变化。
+        _controller.CurrentEntity = nextEntity;
         _controller.UpdateTimelinePrediction(); // 每次选出行动者后都更新一次时间轴预测，保证UI显示正确。
         
-        _controller.TimelineUI.SetActiveEntity(nextEntity); // 通知时间轴UI更新当前行动者的焦点显示。
+        // 4.更新当前行动者的大头像与名字。
+        if (_controller.Config.TurnStartDelay > 0)
+            yield return new WaitForSeconds(_controller.Config.TurnStartDelay);
         
+        // 5.广播“当前轮到谁行动了”
+        _controller.TimelineUI.SetActiveEntity(nextEntity); // 通知时间轴UI更新当前行动者的焦点显示。
         EventBus.Publish(new ActiveEntityChangedEvent(nextEntity)); // 发布事件通知其他系统当前行动者变了。
-        yield return new WaitForSeconds(0.2f);
         
         // 6.最后根据阵营决定下一步去哪：
         // 玩家进输入状态，敌人进AI状态。
         if (nextEntity.IsPlayer)
             _controller.SetState(new PlayerInputState(_controller));
-        
-        yield break;
+        else
+            _controller.SetState(new EnemyAIState(_controller));
     }
 }

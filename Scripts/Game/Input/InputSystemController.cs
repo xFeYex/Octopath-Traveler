@@ -76,6 +76,20 @@ public class InputSystemController : Singleton<InputSystemController>, IEventRec
         return false;
     }
 
+    public int GetBoostDeltra()
+    {
+        if (!_isInitialized || _currentMap != ActionMap.UI) return 0;
+
+        if (!_inputAction.UI.Boost.WasPressedThisFrame())
+            return 0;
+        
+        var value = _inputAction.UI.Boost.ReadValue<float>();
+        if (value > 0.5f) return 1;
+        if (value < -0.5f) return -1;
+
+        return 0;
+    }
+
     public Vector2 GetNavigateInput()
     {
         if (!_isInitialized || _currentMap != ActionMap.UI) 

@@ -23,7 +23,7 @@ public class TargetSelectionState : BattleState
     private float _navigateCooldown; // 左右切换冷却时间
     private const float InputCooldownTime = 0.15f;
     
-    public TargetSelectionState(BattleContoller controller) : base(controller)
+    public TargetSelectionState(BattleController controller) : base(controller)
     {
     }
 
@@ -35,7 +35,7 @@ public class TargetSelectionState : BattleState
             : TargetType.SingleAlly;
         
         // 2. 再按这个目标类型收集当前所有可选目标。
-        _targets = BattleTargeting.GetAliveTargetByType(_controller.CurrentEntity, 
+        _targets = BattleTargeting.GetAliveTargetsByType(_controller.CurrentEntity, 
             _targetType,
             _controller.AllEntities);
         
@@ -134,7 +134,7 @@ public class TargetSelectionState : BattleState
 
     private void ConfirmSelection()
     {
-        if (_targetType == TargetType.SingleEnemy || _targetType == TargetType.AllAllies)
+        if (_targetType == TargetType.AllEnemies || _targetType == TargetType.AllAllies)
         {
             _controller.CurrentCommand.TargetEntityID = null;
         }

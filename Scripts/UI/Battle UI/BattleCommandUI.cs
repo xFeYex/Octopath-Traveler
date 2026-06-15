@@ -11,7 +11,7 @@ public class BattleCommandUI : Singleton<BattleCommandUI>
     [Header("二级菜单")] 
     [SerializeField] private RectTransform commandMenuPanel;
     [SerializeField] private SkillButton skillButtonPrefab;
-    
+    [SerializeField] private ItemButton itemButtonPrefab;
     
 
     [Header("Buttons")] 
@@ -20,6 +20,11 @@ public class BattleCommandUI : Singleton<BattleCommandUI>
     [SerializeField] private Button btnItem;
     [SerializeField] private Button btnDefend;
     [SerializeField] private Button btnEscape;
+    
+    [Header("Attack Type Icon")]
+    [SerializeField] private DamageTypeIconSetSO damageTypeIconSet;
+    [SerializeField] private Image attackTypeIconImage;
+    [SerializeField] private GameObject attackTypeIconRoot;
     
     private BattleEntity _currentEntity;
     
@@ -77,6 +82,12 @@ public class BattleCommandUI : Singleton<BattleCommandUI>
         if (commandType == BattleCommandType.Skill)
         {
             OpenSkillMenu();
+            return;
+        }
+
+        if (commandType == BattleCommandType.Item)
+        {
+            OpenItemMenu();
             return;
         }
         
@@ -153,9 +164,11 @@ public class BattleCommandUI : Singleton<BattleCommandUI>
             return;
         }
             
-        firstButton.Select();
+        firstButton?.Select();
     }
 
+    
+    
     private void OnSkillButtonClick(SkillDataSO skill)
     {
         ClosePanel();
@@ -171,6 +184,41 @@ public class BattleCommandUI : Singleton<BattleCommandUI>
         _lastPrimaryButton = returnButton;  // 记录当前打开的二级菜单对应的主按钮，方便以后返回时重新选中
         _subMenuOpen = true;
         commandMenuCanvasGroup.interactable = false; // 打开二级菜单时，暂时禁止主命令按钮的交互
+    }
+
+    private void OpenItemMenu()
+    {
+        BeginSubMenu(btnItem);
+        var inventory = InventoryManager.Instance;
+        Button firstButton = null;
+
+        foreach (var item in inventory.CurrentInventory)
+        {
+            if (!item.IsConsumable)
+                continue;
+            
+            var itemButton = Instantiate(itemButtonPrefab, commandMenuPanel);
+            itemButton.SetupButton(item, OnItemButtonClick);
+
+            if (firstButton == null)
+                firstButton = itemButton.CurrentButton;
+            
+            _spawnedSubMenuButtons.Add(itemButton.gameObject);
+        }
+
+        if (_spawnedSubMenuButtons.Count == 0)
+        {
+            CloseSubMenu();
+            return;
+        }
+        firstButton?.Select();
+    }
+
+    private void OnItemButtonClick(ItemDefinitionSO item)
+    {
+        ClosePanel();
+        _onItemSelected?.Invoke(item);
+        _onItemSelected = null;
     }
 
     private void CloseSubMenu(bool restorePrimaryButton = true)
@@ -204,6 +252,8 @@ public class BattleCommandUI : Singleton<BattleCommandUI>
         _onCommandSelected = onCommandSelected;
         _onSkillSelected = onSkillSelected;
         _onItemSelected = onItemSelected;
+        
+        RefreshAttackTypeIcon();
         ShowPanel();
     }
 
@@ -218,5 +268,31 @@ public class BattleCommandUI : Singleton<BattleCommandUI>
         }
     }
     
+    #endregion
+
+    #region 攻击类型显示
+
+    private void RefreshAttackTypeIcon()
+    {
+        SkillDataSO basicAttack = _currentEntity.Definition.BasicAttack;
+        var damageType = basicAttack.ResolveDamageType();
+        if (damageType == DamageType.None || damageType == DamageType.Untyped)
+        {
+            SetAttackTypeIconVisible(false);
+            return;
+        }
+        
+        var icon = damageTypeIconSet.GetIcon(damageType);
+        attackTypeIconImage.sprite = icon;
+        SetAttackTypeIconVisible(true);
+    }
+    
+    private void SetAttackTypeIconVisible(bool visible)
+    {
+        attackTypeIconRoot.SetActive(visible);
+        attackTypeIconImage.enabled = visible;
+        attackTypeIconImage.gameObject.SetActive(visible);
+    }
+
     #endregion
 }

@@ -1,9 +1,9 @@
 ﻿
 public abstract class BattleState
 {
-    protected readonly BattleContoller _controller;
+    protected readonly BattleController _controller;
 
-    public BattleState(BattleContoller controller)
+    public BattleState(BattleController controller)
     {
         _controller = controller;
     }

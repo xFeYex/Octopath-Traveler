@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4d6c59ce4b420198c9363d4fb93122, type: 3}
+  m_Name: "\u660A\u5929\u9524"
+  m_EditorClassIdentifier: 
+  specialLogic: {fileID: 0}
+  skillID: haotianchui
+  skillName: "\u660A\u5929\u9524"
+  description: 
+  icon: {fileID: 21300000, guid: 8735955720a3d4b018c08f174eaefb48, type: 3}
+  spCost: 0
+  targetType: 0
+  skillType: 0
+  damageKind: 1
+  elementType: 3
+  weaponType: 0
+  basePower: 44
+  hitCount: 1
+  healAmount: 0
+  hitVfxPrefab: {fileID: 0}
+  vfxSpawnMode: 0
+  vfxSpawnFromCaster: 0
+  vfxOffset: {x: 0, y: 0, z: 0}
+  vfxYRotation: 0
+  vfxHitDelay: 0
+  vfxLifeTime: 2
+  cameraImpulseStrength: 0
+  boostTiers:
+  - tier: 0
+    powerMultiplier: 1
+    hitCountBonus: 0
+    chanceBonus: 0
+    durationBonus: 0
+    genericValueBonus: 0
+  - tier: 1
+    powerMultiplier: 1
+    hitCountBonus: 0
+    chanceBonus: 0
+    durationBonus: 0
+    genericValueBonus: 0
+  - tier: 2
+    powerMultiplier: 1
+    hitCountBonus: 0
+    chanceBonus: 0
+    durationBonus: 0
+    genericValueBonus: 0
+  - tier: 3
+    powerMultiplier: 1
+    hitCountBonus: 0
+    chanceBonus: 0
+    durationBonus: 0
+    genericValueBonus: 0

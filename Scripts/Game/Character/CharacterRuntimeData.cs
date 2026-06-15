@@ -38,12 +38,13 @@ public class CharacterRuntimeData
         Definition = definition;
         EquipmentStats = StatBlock.zero;
         Level = definition.BaseLevel;
+        ApplyInitialEquipment();
         var stats = GetTotalStats();
         CurrentHP = stats.MaxHP;
         CurrentSP = stats.MaxSP;
         CurrentBP = 0;
         
-        ApplyInitialEquipment();
+        
     }
 
     // 运行时的基础数据 = 基础数据 * 等级
@@ -84,6 +85,11 @@ public class CharacterRuntimeData
     {
         CurrentSP += amount;
         CurrentSP = Mathf.Clamp(CurrentSP, 0, GetTotalStats().MaxSP);
+    }
+
+    public void ModifyBP(int amount)
+    {
+        CurrentBP += Mathf.Clamp(CurrentBP + amount, 0, 5);
     }
 
     public void ResetBattleBp()
@@ -207,4 +213,77 @@ public class CharacterRuntimeData
     }
 
     #endregion
+
+    #region 经验成长与升级
+
+    public int GetExpRequiredToNextLevel()
+    {
+        // 队伍成员才会走经验成长，这里直接读取盟友成长配置。
+        return ((AllyDefinitionSO)Definition).GetExpRequiredTonNextLevel(Level);
+    }
+
+    public float GetExpProgress01()
+    {
+        int targetExp = GetExpRequiredToNextLevel();
+        if (targetExp == 0)
+            return 1f;
+        
+        return CurrentExp / (float)targetExp;
+    }
+
+    /// <summary>
+    /// 添加经验并处理升级，返回实际应用的经验值.
+    /// </summary>
+    public int AddExp(int amount)
+    {
+        int remainingExp = amount;
+
+        AllyDefinitionSO allyDef = (AllyDefinitionSO)Definition;
+
+        int appliedExp = 0; // 实际应用的经验值
+        bool leveledUp = false;
+
+        while (remainingExp > 0)
+        {
+            int targetExp = allyDef.GetExpRequiredTonNextLevel(Level); //获取当前等级所需的经验值
+            if (targetExp == 0)
+            {
+                CurrentExp = 0;
+                break;
+            }
+
+            int need = targetExp - CurrentExp; // 计算当前经验值与目标经验值之间的差值
+            int gain = Mathf.Min(need, remainingExp); // 计算实际应用的经验值，取差值与剩余经验值中的较小
+            
+            CurrentExp += gain; // 增加经验值
+            remainingExp -= gain; // 减少剩余经验值
+            appliedExp += gain; // 增加实际应用的经验值
+
+            if (CurrentExp >= targetExp)
+            {
+                Level++;
+                leveledUp = true;
+                CurrentExp = 0; // 减少经验值，使其不超过当前等级所需的经验值
+            }
+        }
+        
+        if (leveledUp)
+            HealFull();
+        
+        return appliedExp;
+    }
+
+    #endregion
 }
+
+
+
+
+
+
+
+
+
+
+
+

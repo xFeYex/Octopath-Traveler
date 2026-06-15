@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b899daa043447fb06a2de6a1e1fb33, type: 3}
   m_Name: Boos-01
   m_EditorClassIdentifier: 
-  ID: 
+  ID: boss_01
   Name: "\u683C\u96F7"
   Portrait: {fileID: 21300000, guid: fe24c40d3cd034227be4d601d9a51139, type: 3}
   BaseLevel: 1
   BaseStats:
-    MaxHP: 1000
+    MaxHP: 500
     MaxSP: 100
-    PAtk: 10
+    PAtk: 33
     PDef: 10
     MAtk: 10
     MDef: 10
@@ -27,6 +27,51 @@ MonoBehaviour:
     Accuracy: 10
     Evasion: 10
   BasicAttack: {fileID: 11400000, guid: 3e5702c126342a64bb2e46502b6aba64, type: 2}
-  InitalSkills: []
+  InitalSkills:
+  - {fileID: 11400000, guid: 127d5d33068ef1b48855b793855f1fbd, type: 2}
   fieldAnimator: {fileID: 22100000, guid: 20ffe0fdc6e5d3e4ca19371129c1aaed, type: 2}
   battleAnimator: {fileID: 22100000, guid: 95fc889a71516df498ad963d41f055a4, type: 2}
+  ExpReward: 100
+  MoneyReward: 300
+  Drops:
+  - ItemDefinition: {fileID: 11400000, guid: b59a5d2b5ed94b74b82de2a68ee1d2b8, type: 2}
+    Quantity: 11
+  - ItemDefinition: {fileID: 11400000, guid: e142e23677e3b3a489ff513978a849ca, type: 2}
+    Quantity: 1
+  MaxShields: 1
+  Weaknesses: 000000000500000009000000
+  AiTuning:
+    basicAttackWeight: 10
+    damageSkillWeight: 15
+    defaultSkillWeight: 10
+    telegraphMinBasePower: 90
+    telegraphMinSpCost: 22
+    telegraphHpRatioThreshold: 0.7
+    telegraphWegiht: 40
+    healLowHpRatioThreshold: 0.4
+    healBaseWeight: 40
+    healPerLowHpBonus: 20
+    singleHealMultiLowHpPenalty: 0.8
+  BossPhases:
+  - triggerHpRatio: 0.75
+    overrideMaxShield: 1
+    maxShield: 2
+    overrideWeaknesses: 1
+    weaknesses: 09000000000000000b00000007000000
+    promptText: what can i say
+    introDelay: 1
+    basicAttackWeightMultiplier: 1
+    damageWeightMultiplier: 1
+    healWeightMultiplier: 1
+    telegraphWeightMultiplier: 1
+  - triggerHpRatio: 0.5
+    overrideMaxShield: 1
+    maxShield: 3
+    overrideWeaknesses: 1
+    weaknesses: 09000000000000000b00000007000000
+    promptText: manba out
+    introDelay: 1
+    basicAttackWeightMultiplier: 1
+    damageWeightMultiplier: 1
+    healWeightMultiplier: 1
+    telegraphWeightMultiplier: 1

@@ -5,7 +5,8 @@ using TMPro;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour,
-    IEventReceiver<ActiveEntityChangedEvent>
+    IEventReceiver<ActiveEntityChangedEvent>,
+    IEventReceiver<EntityStatChangedEvent>
 {
     [Header("UI Elements")] 
     [SerializeField] private TextMeshProUGUI characterName;
@@ -31,14 +32,22 @@ public class HealthBar : MonoBehaviour,
     
     /* ---------------------------------------------------------------------------------- */
 
+    private void Awake()
+    {
+        _baseScale = highlightRoot.localScale;
+        _normalBackground = backgroundImage.sprite;
+    }
+
     private void OnEnable()
     {
         EventBus.Subscribe<ActiveEntityChangedEvent>(this);
+        EventBus.Subscribe<EntityStatChangedEvent>(this);
     }
     
     private void OnDisable()
     {
         EventBus.Unsubscribe<ActiveEntityChangedEvent>(this);
+        EventBus.Unsubscribe<EntityStatChangedEvent>(this);
     }
 
     /* ---------------------------------------------------------------------------------- */
@@ -73,6 +82,13 @@ public class HealthBar : MonoBehaviour,
 
 
     #region 事件监听
+    
+    public void OnEvent(EntityStatChangedEvent e)
+    {
+        if (e.Entity != _targetEntity) return;
+        
+        RefreshUI();
+    }
 
     public void OnEvent(ActiveEntityChangedEvent e)
     {
@@ -100,5 +116,4 @@ public class HealthBar : MonoBehaviour,
     }
 
     #endregion
-    
 }

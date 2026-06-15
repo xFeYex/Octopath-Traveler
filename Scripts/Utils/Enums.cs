@@ -182,3 +182,30 @@ public enum ElementType
     Light,
     Dark
 }
+
+// 伤害颜色
+public enum DamagePopupType
+{
+    Normal = 0,
+    Heal = 2,
+    Magic = 3,
+    Gold = 6
+}
+
+// 伤害/弱点类型
+public enum DamageType
+{
+    // 近战武器类型
+    Sword, Spear, Dagger, Axe, Bow, Staff,
+    // 属性
+    Fire, Ice, Lightning, Wind, Light, Dark,
+    // 特殊
+    None, Untyped
+}
+
+public enum SkillVfxSpawnMode
+{
+    AutoByTargetType = 0,
+    Target = 1,
+    GroupCenter = 2
+}

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b899daa043447fb06a2de6a1e1fb33, type: 3}
   m_Name: "\u866B\u5B50"
   m_EditorClassIdentifier: 
-  ID: 
+  ID: Enemy_01
   Name: "\u5C0F\u866B\u5B50"
   Portrait: {fileID: 1782950447, guid: d32ba9126eb77497caa10e2c9ab3d2ae, type: 3}
   BaseLevel: 1
   BaseStats:
     MaxHP: 100
     MaxSP: 100
-    PAtk: 5
+    PAtk: 22
     PDef: 5
     MAtk: 5
     MDef: 5
@@ -30,3 +30,8 @@ MonoBehaviour:
   InitalSkills: []
   fieldAnimator: {fileID: 22100000, guid: 6c77aed9723211147aa8bfa03c1d3051, type: 2}
   battleAnimator: {fileID: 22100000, guid: b9bacaea820b2b5428b66a2ec67fccc4, type: 2}
+  ExpReward: 0
+  MoneyReward: 0
+  Drops: []
+  MaxShields: 2
+  Weaknesses: 0500000000000000

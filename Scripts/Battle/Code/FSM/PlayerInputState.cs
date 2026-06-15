@@ -8,7 +8,7 @@ public class PlayerInputState : BattleState
     
     /* ---------------------------------------------------------------------------------- */
     
-    public PlayerInputState(BattleContoller controller) : base(controller) { }
+    public PlayerInputState(BattleController controller) : base(controller) { }
 
     public override IEnumerator Enter()
     {
@@ -17,13 +17,14 @@ public class PlayerInputState : BattleState
         
         // 2.重置这一回合的输入暂存状态。
         _inputReceived = false;
-        _pendingBoostSpend = 0;
         _controller.CurrentCommand = null;
         
-        // todo : 3.把场景里的 Boost 表现先归零
+        // 3.把场景里的 Boost 表现先归零
+        _pendingBoostSpend = 0;
+        _controller.FieldManager.SetBoostVfxLevel(0);
         
         // 4. 最后正式打开命令UI，等待玩家输入。
-        BattleCommandUI.Instance.RequestInput(_controller.CurrentEntity, OnCommandSelected, OnSkillSelected, null);
+        BattleCommandUI.Instance.RequestInput(_controller.CurrentEntity, OnCommandSelected, OnSkillSelected, OnItemSelected);
         yield break;
     }
 
@@ -32,7 +33,8 @@ public class PlayerInputState : BattleState
         // 等待玩家输入
         while (!_inputReceived)
         {
-            // todo: 1. 在等待玩家输入期间，持续监听BPBoost的增减。
+            // 1. 在等待玩家输入期间，持续监听BPBoost的增减。
+            UpdateBoostInput();
             yield return null;
         }
         
@@ -48,6 +50,19 @@ public class PlayerInputState : BattleState
         // 如果距离较远，才让单位先跑到行动点，距离近的话就直接在原地选指令
         if (distance > 0.1f)
             yield return _controller.StartCoroutine(_controller.CurrentEntity.Unit.MoveToPosition(actionPos));
+    }
+
+    private void UpdateBoostInput()
+    {
+        int maxSpend = Mathf.Min(3, _controller.CurrentEntity.CurrentBP);
+        if (maxSpend <= 0) return;
+
+        int delta = InputSystemController.Instance.GetBoostDeltra();
+        if (delta == 0) return;
+        
+        _pendingBoostSpend = Mathf.Clamp(_pendingBoostSpend + delta, 0, maxSpend);
+        // 设置特效动画
+        _controller.FieldManager.SetBoostVfxLevel(_pendingBoostSpend);
     }
 
     private void MoveToNextStateByTargetRule()
@@ -68,8 +83,8 @@ public class PlayerInputState : BattleState
     {
         switch (type)
         {
-            case BattleCommandType.Attack: //todo: bp 消耗
-                ConfirmInput(BattleCommandRequest.CreateAttack(_controller.CurrentEntity));
+            case BattleCommandType.Attack: //bp 消耗
+                ConfirmInput(BattleCommandRequest.CreateAttack(_controller.CurrentEntity, _pendingBoostSpend));
                 break;
             case BattleCommandType.Defend:
                 ConfirmInput(BattleCommandRequest.CreateDefend());
@@ -89,8 +104,13 @@ public class PlayerInputState : BattleState
         // 确认输入，创建技能战斗请求
         // 使用预设目标解析方法确定目标
         // 传入当前实体和技能的目标类型
-        //todo: bp 消耗
-        ConfirmInput(BattleCommandRequest.CreateSkill(skill));
+        // bp 消耗
+        ConfirmInput(BattleCommandRequest.CreateSkill(skill, _pendingBoostSpend));
+    }
+
+    private void OnItemSelected(ItemDefinitionSO itemDefinition)
+    {
+        ConfirmInput(BattleCommandRequest.CreateItem(itemDefinition));
     }
 
     private void ConfirmInput(BattleCommandRequest command)

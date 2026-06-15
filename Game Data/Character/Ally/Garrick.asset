@@ -29,6 +29,7 @@ MonoBehaviour:
   BasicAttack: {fileID: 11400000, guid: 3e5702c126342a64bb2e46502b6aba64, type: 2}
   InitalSkills:
   - {fileID: 11400000, guid: 80c9d21dc2622ed468ffa5f81848cf96, type: 2}
+  - {fileID: 11400000, guid: 3e332f0a5f745d94783c3c18bb1316b5, type: 2}
   fieldAnimator: {fileID: 22100000, guid: bcaddec43bc90084281870e37d11da76, type: 2}
   battleAnimator: {fileID: 22100000, guid: 4a67dafb770778c499ad0ffb7bb50008, type: 2}
   job: 1

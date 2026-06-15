@@ -16,7 +16,7 @@ public class GameModeManager : Singleton<GameModeManager>
 
     void Start()
     {
-        AppleMode(CurrentGameMode);
+        ApplyMode(CurrentGameMode);
     }
     
     /* ---------------------------------------------------------------------------------- */
@@ -27,19 +27,30 @@ public class GameModeManager : Singleton<GameModeManager>
     /// <param name="newMode"></param>
     public void RequestChangeMode(GameMode newMode)
     {
-        if (Instance != this) return;
+        if (Instance != this) 
+            return;
 
-        if (!CanSwitchMode(newMode)) return;
+        if (!CanSwitchMode(newMode)) 
+            return;
         
-        AppleMode(newMode);
+        ApplyMode(newMode);
     }
 
-    public bool CanSwitchMode(GameMode mode)
+    /// <summary>
+    /// 模式切换闸门.
+    /// 关键规则：当战会话仍在运行时，禁Battle-Explore 直切.
+    /// 正常离场路径应通过SceneLoadManager：
+    /// Battle-> InteractionMenu-> 场景切换-> Explore.
+    /// </summary>
+    public bool CanSwitchMode(GameMode newMode)
     {
-        return CurrentGameMode != GameMode.Battle;
+        if (CurrentGameMode != GameMode.Battle || newMode != GameMode.Explore)
+            return true;
+        
+        return false;
     }
 
-    public void AppleMode(GameMode mode)
+    public void ApplyMode(GameMode mode)
     {
         CurrentGameMode = mode;
         EventBus.Publish(new GameModeChangedEvent(CurrentGameMode));

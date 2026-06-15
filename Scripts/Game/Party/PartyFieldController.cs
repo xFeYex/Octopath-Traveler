@@ -113,6 +113,8 @@ public class PartyFieldController : MonoBehaviour
     private void RebuildTrailAndSnapFollowers()
     {
         trail.Clear();
+        if (playerTrans == null)
+            return;
         
         for (int i = 0; i< feildFollowers.Count ; i++)
         {
@@ -136,5 +138,17 @@ public class PartyFieldController : MonoBehaviour
         }
         feildFollowers.Clear();
         trail.Clear();
+    }
+
+    internal void TeleportPartyTo(Vector3 position, Quaternion rotation)
+    {
+        CharacterController cc = playerTrans.GetComponent<CharacterController>();
+        cc.enabled = false;
+        playerTrans.position = position;
+        playerTrans.rotation = rotation;
+        cc.enabled = true;
+        
+        playerTrans.GetComponentInChildren<PlayerEncounterTracker>().ResetEncounterTracking(position);
+        RebuildTrailAndSnapFollowers();
     }
 }

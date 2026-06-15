@@ -18,5 +18,5 @@ MonoBehaviour:
   itemIconKey: 4
   BuyPrice: 1111
   MaxStack: 99
-  RarityWeight: 100
+  RarityWeight: 44
   restoreAmount: 10

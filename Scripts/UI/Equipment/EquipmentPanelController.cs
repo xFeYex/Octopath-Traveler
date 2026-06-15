@@ -75,9 +75,6 @@ public class EquipmentPanelController : PanelController
         for (int i = 0; i < partyMembers.Count; i++)
         {
             var member = partyMembers[i];
-            if (member == null) continue;
-            
-            // TODO: 绑定人物属性
             _partyMembers.Add(member);
         }
         

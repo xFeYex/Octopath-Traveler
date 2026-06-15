@@ -1,8 +1,32 @@
-﻿[CreateAssetMenu(menuName = "Battle/Skill Logic/TransferBPLogicSO")]
+﻿using Utils;
+
+[CreateAssetMenu(menuName = "Battle/Skill Logic/TransferBPLogicSO")]
 public class TransferBPLogicSO : SkillLogicSO
 {
-    public override IEnumerator ExecuteLogic(BattleActionContext context, List<BattleEntity> targets, SkillDataSO skillData)
+    public override IEnumerator ExecuteLogic(BattleController controller, BattleEntity actor, BattleCommandRequest command, List<BattleEntity> targets)
     {
-        throw new System.NotImplementedException();
+        SkillDataSO skill = command.Skill;
+        var currentTier = skill.GetBoostTier(command.BPSpend);
+        int amountToGive = skill.basePower + currentTier.genericValueBonus;
+        
+        actor.Unit.PlayUseItemAnimation();
+        
+        yield return new  WaitForSeconds(controller.Config.AttackWindupTime);
+
+        for (int i = 0; i < targets.Count; i++)
+        {
+            var target = targets[i];
+
+            int beforeBP = target.CurrentBP;
+            int finalAmount = Mathf.Min(amountToGive, 5 - beforeBP);
+            if (finalAmount > 0)
+            {
+                target.RuntimeData.ModifyBP(finalAmount);
+                
+                EventBus.Publish(new EntityStatChangedEvent(target, StatType.CureentBP, target.RuntimeData.CurrentBP, 5));
+            }
+            
+            controller.SpawnDamagePopup(target, finalAmount, DamagePopupType.Gold);
+        }
     }
-}
+} 

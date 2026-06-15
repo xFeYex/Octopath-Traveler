@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using Utils;
+
+/// <summary>
 /// 执行行动状态。
 /// 
 /// 这个状态主要负责：Unity脚本
@@ -12,13 +14,36 @@
 /// </summary>
 public class PerformActionState : BattleState
 {
-    public PerformActionState(BattleContoller controller) : base(controller)
-    {
-    }
+    private AttackSkillCommandHandler AttackSkillCommandHandler = new();
+    private EscapeCommandHandler EscapeCommandHandler = new();
+    private DefendCommandHandler  DefendCommandHandler = new();
+    private ItemCommandHandler  ItemCommandHandler = new();
+    
+    public PerformActionState(BattleController controller) : base(controller) { }
 
     public override IEnumerator Execute()
     {
-        _controller.StopBattle();
-        yield break;
+        BattleEntity entity = _controller.CurrentEntity;
+        BattleCommandRequest command = _controller.CurrentCommand;
+
+        switch (command.Type)
+        {
+            case BattleCommandType.Attack:
+            case BattleCommandType.Skill:
+                yield return AttackSkillCommandHandler.Execute(_controller);
+                break;
+            case BattleCommandType.Defend:
+                yield return DefendCommandHandler.Execute(_controller);
+                break;
+            case BattleCommandType.Escape:
+                yield return EscapeCommandHandler.Execute(_controller);
+                break;
+            case BattleCommandType.Item:
+                yield return ItemCommandHandler.Execute(_controller);
+                break;
+        }
+        
+        _controller.UpdateTimelinePrediction();
+        _controller.SetState(new TurnEndState(_controller));
     }
 }

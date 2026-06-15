@@ -15,7 +15,7 @@ public class BattleSetupState : BattleState
 {
     private readonly BattleStartPayload _startPayload;
     
-    public BattleSetupState(BattleContoller controller, BattleStartPayload startPayload) : base(controller)
+    public BattleSetupState(BattleController controller, BattleStartPayload startPayload) : base(controller)
     {
         _startPayload = startPayload;
     }
@@ -32,7 +32,7 @@ public class BattleSetupState : BattleState
         _controller.AllEntities.AddRange(CreateEntities(_startPayload.Enemies, _controller.FieldManager.SpawnEnemyUnits, false));
 
         // 3.友军先从入场点跑到各自站位，敌军默认直接站好。
-        float runtime = 2f; // todo: 以后统一管理
+        float runtime = _controller.Config.StartBattleDelay;
         if (runtime > 0f)
         {
             yield return new WaitForSeconds(runtime);

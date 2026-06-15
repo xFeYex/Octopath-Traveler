@@ -11,5 +11,9 @@ public abstract class SkillLogicSO : ScriptableObject
     /// <param name="targets">已选定的目标列表</param>
     /// <param name="skillData">技能本身的静态数据（于读取威等参数）</param>
     /// <returns></returns>
-    public abstract IEnumerator ExecuteLogic(BattleActionContext context, List<BattleEntity> targets, SkillDataSO skillData);
+    public abstract IEnumerator ExecuteLogic(
+        BattleController controller,
+        BattleEntity actor,
+        BattleCommandRequest command,
+        List<BattleEntity> targets);
 }

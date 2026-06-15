@@ -16,6 +16,15 @@ public class AllyDefinitionSO : CharacterDefinitionSO
     
     [Header("Initial Equipment")]
     public List<InitialEquipmentEntry> InitialEquipment = new();
+
+    #region 经验成长参数
+
+    [Header("Progression")] 
+    [Min(1)] public int ExpToNextLevelAtLv1 = 200;
+    [Min(1f)] public float ExpGrowthPerLevel = 1.15f;
+    [Min(2)] public int MaxLevel = 99;
+
+    #endregion
     
     [System.Serializable]
     public struct InitialEquipmentEntry
@@ -26,6 +35,27 @@ public class AllyDefinitionSO : CharacterDefinitionSO
     
     /* ------------------------------------------------------------------------------------------------ */
 
+    /// <summary>
+    /// 计算升级到下一级所需的经验值
+    /// </summary>
+    /// <param name="currentLevel">当前等级</param>
+    /// <returns>升级到下级所需的经验值，如果已达到最等级则返回0</returns>
+    public int GetExpRequiredTonNextLevel(int currentLevel)
+    {
+        // 检查是否已达到最大等级
+        if (currentLevel >= MaxLevel)
+            return 0;
+        
+        // 确保等级不小于1
+        int clampedLevel = Mathf.Max(1, currentLevel);
+        
+        // 使用指数增长公式计算所需经验值
+        float scaled = ExpToNextLevelAtLv1 * Mathf.Pow(ExpGrowthPerLevel, clampedLevel - 1);
+        
+        // 返回四舍五入后的经验值，并确保至少为1
+        return Mathf.Max(1, Mathf.RoundToInt(scaled));
+    }
+    
     public bool CanEquipWeaponType(WeaponType weaponType)
     {
         if (weaponType == WeaponType.None) return false;

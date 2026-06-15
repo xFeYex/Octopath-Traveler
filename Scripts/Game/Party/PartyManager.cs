@@ -45,6 +45,19 @@ public class PartyManager : Singleton<PartyManager>,
 
     /* ------------------------------------------------------------------------- */
 
+    /// <summary>
+    /// 是否已包含该角色定义（用于招募点/NPC可见性判断）
+    /// </summary>
+    public bool HasMember(CharacterDefinitionSO definition)
+    {
+        foreach (var member in partyMembers)
+        {
+            if (member.Definition == definition)
+                return true;
+        }
+        return false;
+    }
+    
     private void InitParty()
     {
         if (partyMembers.Count == 0)
@@ -95,7 +108,8 @@ public class PartyManager : Singleton<PartyManager>,
     {
         if (e.newMode == GameMode.Battle)
         {
-            if (fieldActorsHidden) return;
+            if (fieldActorsHidden) 
+                return;
             
             fieldActorsHidden = true;
             fieldController.SetPlayerActive(false);
@@ -105,12 +119,29 @@ public class PartyManager : Singleton<PartyManager>,
 
         if (e.newMode == GameMode.Explore)
         {
-            if (!fieldActorsHidden) return;
+            if (!fieldActorsHidden) 
+                return;
             
             fieldActorsHidden = false;
             fieldController.SetPlayerActive(true);
             RefreshFieldFollowers();
         }
+    }
+
+    #endregion
+
+    #region 队伍移动
+
+    public void TeleportPartyTo(Vector3 position, Quaternion rotation)
+    {
+        if (fieldActorsHidden)
+        {
+            fieldActorsHidden = false;
+            fieldController.SetPlayerActive(true);
+            RefreshFieldFollowers();
+        }
+        fieldController.TeleportPartyTo(position, rotation);
+            
     }
 
     #endregion
